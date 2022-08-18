@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crow.marketplace;
+
+option go_package = "crow/x/marketplace/types";
+
+message Listing {
+  
+  uint64 listingId = 1; 
+  uint64 producerId = 2; 
+  string title = 3; 
+  string description = 4; 
+  string minPrice = 5; 
+  string status = 6; 
+}
