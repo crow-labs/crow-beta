@@ -19,8 +19,8 @@ export interface User {
 export interface Whitelist {
   whitelistId: number;
   governor: string;
-  users: User | undefined;
-  producers: Producer | undefined;
+  users: User[];
+  producers: Producer[];
 }
 
 const baseProducer: object = { producerId: 0, address: "", status: "" };
@@ -211,11 +211,11 @@ export const Whitelist = {
     if (message.governor !== "") {
       writer.uint32(18).string(message.governor);
     }
-    if (message.users !== undefined) {
-      User.encode(message.users, writer.uint32(26).fork()).ldelim();
+    for (const v of message.users) {
+      User.encode(v!, writer.uint32(26).fork()).ldelim();
     }
-    if (message.producers !== undefined) {
-      Producer.encode(message.producers, writer.uint32(34).fork()).ldelim();
+    for (const v of message.producers) {
+      Producer.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -224,6 +224,8 @@ export const Whitelist = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseWhitelist } as Whitelist;
+    message.users = [];
+    message.producers = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -234,10 +236,10 @@ export const Whitelist = {
           message.governor = reader.string();
           break;
         case 3:
-          message.users = User.decode(reader, reader.uint32());
+          message.users.push(User.decode(reader, reader.uint32()));
           break;
         case 4:
-          message.producers = Producer.decode(reader, reader.uint32());
+          message.producers.push(Producer.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -249,6 +251,8 @@ export const Whitelist = {
 
   fromJSON(object: any): Whitelist {
     const message = { ...baseWhitelist } as Whitelist;
+    message.users = [];
+    message.producers = [];
     if (object.whitelistId !== undefined && object.whitelistId !== null) {
       message.whitelistId = Number(object.whitelistId);
     } else {
@@ -260,14 +264,14 @@ export const Whitelist = {
       message.governor = "";
     }
     if (object.users !== undefined && object.users !== null) {
-      message.users = User.fromJSON(object.users);
-    } else {
-      message.users = undefined;
+      for (const e of object.users) {
+        message.users.push(User.fromJSON(e));
+      }
     }
     if (object.producers !== undefined && object.producers !== null) {
-      message.producers = Producer.fromJSON(object.producers);
-    } else {
-      message.producers = undefined;
+      for (const e of object.producers) {
+        message.producers.push(Producer.fromJSON(e));
+      }
     }
     return message;
   },
@@ -277,17 +281,25 @@ export const Whitelist = {
     message.whitelistId !== undefined &&
       (obj.whitelistId = message.whitelistId);
     message.governor !== undefined && (obj.governor = message.governor);
-    message.users !== undefined &&
-      (obj.users = message.users ? User.toJSON(message.users) : undefined);
-    message.producers !== undefined &&
-      (obj.producers = message.producers
-        ? Producer.toJSON(message.producers)
-        : undefined);
+    if (message.users) {
+      obj.users = message.users.map((e) => (e ? User.toJSON(e) : undefined));
+    } else {
+      obj.users = [];
+    }
+    if (message.producers) {
+      obj.producers = message.producers.map((e) =>
+        e ? Producer.toJSON(e) : undefined
+      );
+    } else {
+      obj.producers = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<Whitelist>): Whitelist {
     const message = { ...baseWhitelist } as Whitelist;
+    message.users = [];
+    message.producers = [];
     if (object.whitelistId !== undefined && object.whitelistId !== null) {
       message.whitelistId = object.whitelistId;
     } else {
@@ -299,14 +311,14 @@ export const Whitelist = {
       message.governor = "";
     }
     if (object.users !== undefined && object.users !== null) {
-      message.users = User.fromPartial(object.users);
-    } else {
-      message.users = undefined;
+      for (const e of object.users) {
+        message.users.push(User.fromPartial(e));
+      }
     }
     if (object.producers !== undefined && object.producers !== null) {
-      message.producers = Producer.fromPartial(object.producers);
-    } else {
-      message.producers = undefined;
+      for (const e of object.producers) {
+        message.producers.push(Producer.fromPartial(e));
+      }
     }
     return message;
   },

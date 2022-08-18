@@ -22,11 +22,7 @@ message Whitelist {
   uint64 whitelistId = 1 [(gogoproto.customname) = "Id"]; 
   string governor = 2; 
 
-  User users = 3 [(gogoproto.nullable) = false];
-  Producer producers = 4 [(gogoproto.nullable) = false];
+  repeated User users = 3 [(gogoproto.nullable) = false];
+  repeated Producer producers = 4 [(gogoproto.nullable) = false];
 }
 
-
- 
- 
- 
