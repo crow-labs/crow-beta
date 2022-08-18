@@ -9,3 +9,10 @@ message ProducerDispute {
   uint64 producerId = 2; 
   string description = 3; 
 }
+
+message UserDispute {
+  uint64 disputeId = 1;
+  uint64 escrowId = 2; 
+  uint64 userId = 3; 
+  string description = 4; 
+}

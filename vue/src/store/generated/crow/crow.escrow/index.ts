@@ -1,14 +1,14 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { BasicEscrow } from "./module/types/escrow/basic_escrow"
+import { ProducerDispute } from "./module/types/escrow/dispute"
+import { UserDispute } from "./module/types/escrow/dispute"
 import { EscrowPacketData } from "./module/types/escrow/packet"
 import { NoData } from "./module/types/escrow/packet"
 import { Params } from "./module/types/escrow/params"
-import { ProducerDispute } from "./module/types/escrow/producer_dispute"
-import { UserDispute } from "./module/types/escrow/user_dispute"
 
 
-export { BasicEscrow, EscrowPacketData, NoData, Params, ProducerDispute, UserDispute };
+export { BasicEscrow, ProducerDispute, UserDispute, EscrowPacketData, NoData, Params };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -50,11 +50,11 @@ const getDefaultState = () => {
 				
 				_Structure: {
 						BasicEscrow: getStructure(BasicEscrow.fromPartial({})),
+						ProducerDispute: getStructure(ProducerDispute.fromPartial({})),
+						UserDispute: getStructure(UserDispute.fromPartial({})),
 						EscrowPacketData: getStructure(EscrowPacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
-						ProducerDispute: getStructure(ProducerDispute.fromPartial({})),
-						UserDispute: getStructure(UserDispute.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -160,6 +160,21 @@ export default {
 				}
 			}
 		},
+		async sendMsgCancelEscrow({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCancelEscrow(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCancelEscrow:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgCancelEscrow:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgItemDamaged({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -172,21 +187,6 @@ export default {
 					throw new Error('TxClient:MsgItemDamaged:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgItemDamaged:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgItemNotReceived({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgItemNotReceived(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgItemNotReceived:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgItemNotReceived:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -205,6 +205,21 @@ export default {
 				}
 			}
 		},
+		async sendMsgItemNotReceived({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgItemNotReceived(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgItemNotReceived:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgItemNotReceived:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgItemShipped({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -217,21 +232,6 @@ export default {
 					throw new Error('TxClient:MsgItemShipped:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgItemShipped:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgCancelEscrow({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelEscrow(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelEscrow:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgCancelEscrow:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -249,6 +249,19 @@ export default {
 				}
 			}
 		},
+		async MsgCancelEscrow({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCancelEscrow(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCancelEscrow:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgCancelEscrow:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgItemDamaged({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -259,19 +272,6 @@ export default {
 					throw new Error('TxClient:MsgItemDamaged:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgItemDamaged:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgItemNotReceived({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgItemNotReceived(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgItemNotReceived:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgItemNotReceived:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -288,6 +288,19 @@ export default {
 				}
 			}
 		},
+		async MsgItemNotReceived({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgItemNotReceived(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgItemNotReceived:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgItemNotReceived:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgItemShipped({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -298,19 +311,6 @@ export default {
 					throw new Error('TxClient:MsgItemShipped:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgItemShipped:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgCancelEscrow({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelEscrow(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelEscrow:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgCancelEscrow:Create Could not create message: ' + e.message)
 				}
 			}
 		},
