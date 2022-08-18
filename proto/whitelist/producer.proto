@@ -1,0 +1,11 @@
+syntax = "proto3";
+package crow.whitelist;
+
+option go_package = "crow/x/whitelist/types";
+
+message Producer {
+  
+  uint64 producerId = 1; 
+  string address = 2; 
+  string status = 3; 
+}
