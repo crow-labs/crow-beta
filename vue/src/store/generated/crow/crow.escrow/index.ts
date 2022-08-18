@@ -1,11 +1,12 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
+import { BasicEscrow } from "./module/types/escrow/basic_escrow"
 import { EscrowPacketData } from "./module/types/escrow/packet"
 import { NoData } from "./module/types/escrow/packet"
 import { Params } from "./module/types/escrow/params"
 
 
-export { EscrowPacketData, NoData, Params };
+export { BasicEscrow, EscrowPacketData, NoData, Params };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -46,6 +47,7 @@ const getDefaultState = () => {
 				Params: {},
 				
 				_Structure: {
+						BasicEscrow: getStructure(BasicEscrow.fromPartial({})),
 						EscrowPacketData: getStructure(EscrowPacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crow.escrow;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "crow/x/escrow/types";
+
+message BasicEscrow {
+  uint64 escrowId = 1 [(gogoproto.customname) = "Id"]; 
+  string address = 2; 
+  uint64 orderId = 3; 
+  string price = 4; 
+  string status = 5; 
+}

@@ -225,7 +225,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title escrow/genesis.proto
+ * @title escrow/basic_escrow.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
