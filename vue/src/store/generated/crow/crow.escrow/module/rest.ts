@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type EscrowMsgItemDamagedResponse = object;
+
 export type EscrowMsgItemReceivedResponse = object;
 
 /**

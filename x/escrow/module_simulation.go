@@ -28,6 +28,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgItemReceived int = 100
 
+	opWeightMsgItemDamaged = "op_weight_msg_item_damaged"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgItemDamaged int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -72,6 +76,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgItemReceived,
 		escrowsimulation.SimulateMsgItemReceived(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgItemDamaged int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgItemDamaged, &weightMsgItemDamaged, nil,
+		func(_ *rand.Rand) {
+			weightMsgItemDamaged = defaultWeightMsgItemDamaged
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgItemDamaged,
+		escrowsimulation.SimulateMsgItemDamaged(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
