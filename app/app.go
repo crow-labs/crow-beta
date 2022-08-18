@@ -99,6 +99,9 @@ import (
 	monitoringptypes "github.com/tendermint/spn/x/monitoringp/types"
 
 	"crow/docs"
+	escrowmodule "crow/x/escrow"
+	escrowmodulekeeper "crow/x/escrow/keeper"
+	escrowmoduletypes "crow/x/escrow/types"
 	marketplacemodule "crow/x/marketplace"
 	marketplacemodulekeeper "crow/x/marketplace/keeper"
 	marketplacemoduletypes "crow/x/marketplace/types"
@@ -161,6 +164,7 @@ var (
 		monitoringp.AppModuleBasic{},
 		whitelistmodule.AppModuleBasic{},
 		marketplacemodule.AppModuleBasic{},
+		escrowmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -174,6 +178,7 @@ var (
 		govtypes.ModuleName:               {authtypes.Burner},
 		ibctransfertypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
 		marketplacemoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		escrowmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -237,6 +242,8 @@ type App struct {
 	WhitelistKeeper         whitelistmodulekeeper.Keeper
 	ScopedMarketplaceKeeper capabilitykeeper.ScopedKeeper
 	MarketplaceKeeper       marketplacemodulekeeper.Keeper
+	ScopedEscrowKeeper      capabilitykeeper.ScopedKeeper
+	EscrowKeeper            escrowmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -275,6 +282,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, monitoringptypes.StoreKey,
 		whitelistmoduletypes.StoreKey,
 		marketplacemoduletypes.StoreKey,
+		escrowmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -421,6 +429,21 @@ func New(
 	)
 	marketplaceModule := marketplacemodule.NewAppModule(appCodec, app.MarketplaceKeeper, app.AccountKeeper, app.BankKeeper)
 
+	scopedEscrowKeeper := app.CapabilityKeeper.ScopeToModule(escrowmoduletypes.ModuleName)
+	app.ScopedEscrowKeeper = scopedEscrowKeeper
+	app.EscrowKeeper = *escrowmodulekeeper.NewKeeper(
+		appCodec,
+		keys[escrowmoduletypes.StoreKey],
+		keys[escrowmoduletypes.MemStoreKey],
+		app.GetSubspace(escrowmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedEscrowKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+	)
+	escrowModule := escrowmodule.NewAppModule(appCodec, app.EscrowKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -428,6 +451,7 @@ func New(
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
 	ibcRouter.AddRoute(monitoringptypes.ModuleName, monitoringModule)
 	ibcRouter.AddRoute(marketplacemoduletypes.ModuleName, marketplaceModule)
+	ibcRouter.AddRoute(escrowmoduletypes.ModuleName, escrowModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -465,6 +489,7 @@ func New(
 		monitoringModule,
 		whitelistModule,
 		marketplaceModule,
+		escrowModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -494,6 +519,7 @@ func New(
 		monitoringptypes.ModuleName,
 		whitelistmoduletypes.ModuleName,
 		marketplacemoduletypes.ModuleName,
+		escrowmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -519,6 +545,7 @@ func New(
 		monitoringptypes.ModuleName,
 		whitelistmoduletypes.ModuleName,
 		marketplacemoduletypes.ModuleName,
+		escrowmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -549,6 +576,7 @@ func New(
 		monitoringptypes.ModuleName,
 		whitelistmoduletypes.ModuleName,
 		marketplacemoduletypes.ModuleName,
+		escrowmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -575,6 +603,7 @@ func New(
 		monitoringModule,
 		whitelistModule,
 		marketplaceModule,
+		escrowModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -766,6 +795,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(monitoringptypes.ModuleName)
 	paramsKeeper.Subspace(whitelistmoduletypes.ModuleName)
 	paramsKeeper.Subspace(marketplacemoduletypes.ModuleName)
+	paramsKeeper.Subspace(escrowmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
