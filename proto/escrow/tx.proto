@@ -7,7 +7,16 @@ option go_package = "crow/x/escrow/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc ItemReceived(MsgItemReceived) returns (MsgItemReceivedResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgItemReceived {
+  string userAddress = 1;
+  uint64 escrowId = 2;
+}
+
+message MsgItemReceivedResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

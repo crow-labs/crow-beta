@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type EscrowMsgItemReceivedResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

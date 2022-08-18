@@ -47250,6 +47250,8 @@ definitions:
     description: >-
       MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount
       response type.
+  crow.escrow.MsgItemReceivedResponse:
+    type: object
   crow.escrow.Params:
     type: object
     description: Params defines the parameters for the module.
