@@ -43,6 +43,14 @@ export interface MsgCancelEscrow {
 
 export interface MsgCancelEscrowResponse {}
 
+export interface MsgItemNotReceived {
+  userAddress: string;
+  escrowId: number;
+  description: string;
+}
+
+export interface MsgItemNotReceivedResponse {}
+
 const baseMsgItemReceived: object = { userAddress: "", escrowId: 0 };
 
 export const MsgItemReceived = {
@@ -721,14 +729,167 @@ export const MsgCancelEscrowResponse = {
   },
 };
 
+const baseMsgItemNotReceived: object = {
+  userAddress: "",
+  escrowId: 0,
+  description: "",
+};
+
+export const MsgItemNotReceived = {
+  encode(
+    message: MsgItemNotReceived,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.userAddress !== "") {
+      writer.uint32(10).string(message.userAddress);
+    }
+    if (message.escrowId !== 0) {
+      writer.uint32(16).uint64(message.escrowId);
+    }
+    if (message.description !== "") {
+      writer.uint32(26).string(message.description);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgItemNotReceived {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgItemNotReceived } as MsgItemNotReceived;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userAddress = reader.string();
+          break;
+        case 2:
+          message.escrowId = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.description = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgItemNotReceived {
+    const message = { ...baseMsgItemNotReceived } as MsgItemNotReceived;
+    if (object.userAddress !== undefined && object.userAddress !== null) {
+      message.userAddress = String(object.userAddress);
+    } else {
+      message.userAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = Number(object.escrowId);
+    } else {
+      message.escrowId = 0;
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgItemNotReceived): unknown {
+    const obj: any = {};
+    message.userAddress !== undefined &&
+      (obj.userAddress = message.userAddress);
+    message.escrowId !== undefined && (obj.escrowId = message.escrowId);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgItemNotReceived>): MsgItemNotReceived {
+    const message = { ...baseMsgItemNotReceived } as MsgItemNotReceived;
+    if (object.userAddress !== undefined && object.userAddress !== null) {
+      message.userAddress = object.userAddress;
+    } else {
+      message.userAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = object.escrowId;
+    } else {
+      message.escrowId = 0;
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgItemNotReceivedResponse: object = {};
+
+export const MsgItemNotReceivedResponse = {
+  encode(
+    _: MsgItemNotReceivedResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgItemNotReceivedResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgItemNotReceivedResponse,
+    } as MsgItemNotReceivedResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgItemNotReceivedResponse {
+    const message = {
+      ...baseMsgItemNotReceivedResponse,
+    } as MsgItemNotReceivedResponse;
+    return message;
+  },
+
+  toJSON(_: MsgItemNotReceivedResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgItemNotReceivedResponse>
+  ): MsgItemNotReceivedResponse {
+    const message = {
+      ...baseMsgItemNotReceivedResponse,
+    } as MsgItemNotReceivedResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   ItemReceived(request: MsgItemReceived): Promise<MsgItemReceivedResponse>;
   ItemDamaged(request: MsgItemDamaged): Promise<MsgItemDamagedResponse>;
   ItemIncorrect(request: MsgItemIncorrect): Promise<MsgItemIncorrectResponse>;
   ItemShipped(request: MsgItemShipped): Promise<MsgItemShippedResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   CancelEscrow(request: MsgCancelEscrow): Promise<MsgCancelEscrowResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  ItemNotReceived(
+    request: MsgItemNotReceived
+  ): Promise<MsgItemNotReceivedResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -773,6 +934,20 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("crow.escrow.Msg", "CancelEscrow", data);
     return promise.then((data) =>
       MsgCancelEscrowResponse.decode(new Reader(data))
+    );
+  }
+
+  ItemNotReceived(
+    request: MsgItemNotReceived
+  ): Promise<MsgItemNotReceivedResponse> {
+    const data = MsgItemNotReceived.encode(request).finish();
+    const promise = this.rpc.request(
+      "crow.escrow.Msg",
+      "ItemNotReceived",
+      data
+    );
+    return promise.then((data) =>
+      MsgItemNotReceivedResponse.decode(new Reader(data))
     );
   }
 }

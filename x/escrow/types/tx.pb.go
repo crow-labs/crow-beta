@@ -499,6 +499,102 @@ func (m *MsgCancelEscrowResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCancelEscrowResponse proto.InternalMessageInfo
 
+type MsgItemNotReceived struct {
+	UserAddress string `protobuf:"bytes,1,opt,name=userAddress,proto3" json:"userAddress,omitempty"`
+	EscrowId    uint64 `protobuf:"varint,2,opt,name=escrowId,proto3" json:"escrowId,omitempty"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+}
+
+func (m *MsgItemNotReceived) Reset()         { *m = MsgItemNotReceived{} }
+func (m *MsgItemNotReceived) String() string { return proto.CompactTextString(m) }
+func (*MsgItemNotReceived) ProtoMessage()    {}
+func (*MsgItemNotReceived) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{10}
+}
+func (m *MsgItemNotReceived) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgItemNotReceived) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgItemNotReceived.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgItemNotReceived) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgItemNotReceived.Merge(m, src)
+}
+func (m *MsgItemNotReceived) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgItemNotReceived) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgItemNotReceived.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgItemNotReceived proto.InternalMessageInfo
+
+func (m *MsgItemNotReceived) GetUserAddress() string {
+	if m != nil {
+		return m.UserAddress
+	}
+	return ""
+}
+
+func (m *MsgItemNotReceived) GetEscrowId() uint64 {
+	if m != nil {
+		return m.EscrowId
+	}
+	return 0
+}
+
+func (m *MsgItemNotReceived) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+type MsgItemNotReceivedResponse struct {
+}
+
+func (m *MsgItemNotReceivedResponse) Reset()         { *m = MsgItemNotReceivedResponse{} }
+func (m *MsgItemNotReceivedResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgItemNotReceivedResponse) ProtoMessage()    {}
+func (*MsgItemNotReceivedResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{11}
+}
+func (m *MsgItemNotReceivedResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgItemNotReceivedResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgItemNotReceivedResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgItemNotReceivedResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgItemNotReceivedResponse.Merge(m, src)
+}
+func (m *MsgItemNotReceivedResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgItemNotReceivedResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgItemNotReceivedResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgItemNotReceivedResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgItemReceived)(nil), "crow.escrow.MsgItemReceived")
 	proto.RegisterType((*MsgItemReceivedResponse)(nil), "crow.escrow.MsgItemReceivedResponse")
@@ -510,37 +606,41 @@ func init() {
 	proto.RegisterType((*MsgItemShippedResponse)(nil), "crow.escrow.MsgItemShippedResponse")
 	proto.RegisterType((*MsgCancelEscrow)(nil), "crow.escrow.MsgCancelEscrow")
 	proto.RegisterType((*MsgCancelEscrowResponse)(nil), "crow.escrow.MsgCancelEscrowResponse")
+	proto.RegisterType((*MsgItemNotReceived)(nil), "crow.escrow.MsgItemNotReceived")
+	proto.RegisterType((*MsgItemNotReceivedResponse)(nil), "crow.escrow.MsgItemNotReceivedResponse")
 }
 
 func init() { proto.RegisterFile("escrow/tx.proto", fileDescriptor_8e01f3e45c7c056c) }
 
 var fileDescriptor_8e01f3e45c7c056c = []byte{
-	// 391 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0xcf, 0x4a, 0xeb, 0x40,
-	0x14, 0xc6, 0x9b, 0xdb, 0xcb, 0xbd, 0xb7, 0xa7, 0x57, 0x2b, 0x11, 0x34, 0x46, 0x0d, 0x25, 0x2a,
-	0x74, 0x63, 0x0a, 0xfa, 0x04, 0xfe, 0x5b, 0x74, 0x51, 0x0a, 0x11, 0x37, 0xee, 0x62, 0xe6, 0x50,
-	0x03, 0x36, 0x33, 0xcc, 0xa4, 0x5a, 0xdf, 0xc2, 0xa7, 0xf0, 0x59, 0x5c, 0x76, 0xe9, 0x52, 0xda,
-	0x17, 0x91, 0xfc, 0x1b, 0x92, 0x69, 0x28, 0x68, 0x5d, 0x9e, 0xf3, 0x71, 0xce, 0xf9, 0xf1, 0xcd,
-	0xc7, 0x40, 0x0b, 0x85, 0xcf, 0xe9, 0x53, 0x37, 0x9a, 0x38, 0x8c, 0xd3, 0x88, 0xea, 0xcd, 0xb8,
-	0x74, 0xd2, 0xae, 0x3d, 0x80, 0x56, 0x5f, 0x0c, 0x7b, 0x11, 0x8e, 0x5c, 0xf4, 0x31, 0x78, 0x44,
-	0xa2, 0xb7, 0xa1, 0x39, 0x16, 0xc8, 0xcf, 0x08, 0xe1, 0x28, 0x84, 0xa1, 0xb5, 0xb5, 0x4e, 0xc3,
-	0x2d, 0xb6, 0x74, 0x13, 0xfe, 0xa5, 0xe3, 0x3d, 0x62, 0xfc, 0x6a, 0x6b, 0x9d, 0xdf, 0xae, 0xac,
-	0xed, 0x1d, 0xd8, 0x56, 0x16, 0xba, 0x28, 0x18, 0x0d, 0x05, 0xda, 0x0c, 0xd6, 0x33, 0xe9, 0xd2,
-	0x1b, 0x79, 0xc3, 0x55, 0x4f, 0xc5, 0xd3, 0x24, 0x2e, 0x02, 0x16, 0x05, 0x34, 0x34, 0xea, 0xe9,
-	0x74, 0xa1, 0x65, 0x1b, 0xb0, 0x55, 0xbe, 0x28, 0x59, 0x38, 0x6c, 0x64, 0x4a, 0x2f, 0xf4, 0x29,
-	0xe7, 0xe8, 0x47, 0xdf, 0xa0, 0x69, 0x7c, 0x89, 0xc6, 0x04, 0x43, 0xbd, 0x29, 0x79, 0x26, 0xd2,
-	0x9b, 0xeb, 0xfb, 0x80, 0x31, 0x24, 0x7a, 0x07, 0x5a, 0x8c, 0x53, 0x32, 0xf6, 0x55, 0x22, 0xb5,
-	0xfd, 0x63, 0x1e, 0x65, 0x97, 0x25, 0x53, 0x90, 0x64, 0xe3, 0xc2, 0x0b, 0x7d, 0x7c, 0xb8, 0x4a,
-	0x16, 0xea, 0x06, 0xfc, 0xf5, 0x39, 0x7a, 0x11, 0xe5, 0x19, 0x4c, 0x5e, 0xae, 0x68, 0x4d, 0x9a,
-	0x9a, 0xe2, 0xa9, 0x9c, 0xe2, 0xe4, 0xb5, 0x0e, 0xf5, 0xbe, 0x18, 0xea, 0x2e, 0xfc, 0x2f, 0xc5,
-	0x74, 0xcf, 0x29, 0xe4, 0xd8, 0x51, 0x32, 0x67, 0x1e, 0x2e, 0x53, 0xf3, 0xdd, 0xfa, 0x00, 0x9a,
-	0xc5, 0x38, 0xee, 0x56, 0x0d, 0x65, 0xa2, 0x79, 0xb0, 0x44, 0x94, 0x0b, 0x6f, 0x60, 0xad, 0x9c,
-	0xa9, 0xfd, 0xaa, 0x29, 0x29, 0x9b, 0x47, 0x4b, 0x65, 0x95, 0x33, 0x8f, 0x46, 0x25, 0x67, 0x26,
-	0x56, 0x73, 0x2a, 0x4f, 0x1b, 0x9b, 0x59, 0x7a, 0xd7, 0x05, 0x33, 0x8b, 0xea, 0xa2, 0x99, 0x55,
-	0x0f, 0x75, 0x7e, 0xfc, 0x36, 0xb3, 0xb4, 0xe9, 0xcc, 0xd2, 0x3e, 0x66, 0x96, 0xf6, 0x32, 0xb7,
-	0x6a, 0xd3, 0xb9, 0x55, 0x7b, 0x9f, 0x5b, 0xb5, 0xdb, 0xcd, 0xe4, 0x03, 0x9a, 0x74, 0xf3, 0x9f,
-	0xe8, 0x99, 0xa1, 0xb8, 0xfb, 0x93, 0xfc, 0x46, 0xa7, 0x9f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x8d,
-	0x7d, 0x7b, 0x5c, 0xa0, 0x04, 0x00, 0x00,
+	// 429 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x94, 0xcd, 0x6e, 0xda, 0x40,
+	0x10, 0xc7, 0x71, 0x41, 0x6d, 0x19, 0xda, 0xba, 0xda, 0x4a, 0xad, 0xeb, 0x52, 0x17, 0xb9, 0xad,
+	0xca, 0xa5, 0x46, 0x4a, 0x9e, 0x20, 0x5f, 0x07, 0x0e, 0x04, 0xc9, 0x51, 0x2e, 0xc9, 0xc9, 0xb1,
+	0x57, 0xc4, 0x52, 0xf0, 0xae, 0x76, 0x97, 0x84, 0x9c, 0xf3, 0x02, 0x79, 0xac, 0x1c, 0x39, 0xe6,
+	0x18, 0xc1, 0x8b, 0x44, 0xfe, 0x5a, 0xd9, 0x8b, 0x45, 0x3e, 0xe0, 0x38, 0xf3, 0xdf, 0x99, 0xf9,
+	0x69, 0xf4, 0x9f, 0x05, 0x1d, 0x73, 0x9f, 0x91, 0xab, 0x9e, 0x98, 0x3a, 0x94, 0x11, 0x41, 0x50,
+	0x2b, 0x0e, 0x9d, 0x34, 0x6b, 0x0f, 0x41, 0x1f, 0xf0, 0x51, 0x5f, 0xe0, 0xb1, 0x8b, 0x7d, 0x1c,
+	0x5e, 0xe2, 0x00, 0x75, 0xa0, 0x35, 0xe1, 0x98, 0xed, 0x04, 0x01, 0xc3, 0x9c, 0x1b, 0x5a, 0x47,
+	0xeb, 0x36, 0xdd, 0x62, 0x0a, 0x99, 0xf0, 0x3e, 0x2d, 0xef, 0x07, 0xc6, 0x9b, 0x8e, 0xd6, 0x6d,
+	0xb8, 0x32, 0xb6, 0xbf, 0xc3, 0x37, 0xa5, 0xa1, 0x8b, 0x39, 0x25, 0x11, 0xc7, 0x36, 0x85, 0x4f,
+	0x99, 0xb4, 0xef, 0x8d, 0xbd, 0xd1, 0xba, 0xa3, 0xe2, 0xea, 0x20, 0x0e, 0x42, 0x2a, 0x42, 0x12,
+	0x19, 0xf5, 0xb4, 0xba, 0x90, 0xb2, 0x0d, 0xf8, 0x5a, 0x9e, 0x28, 0x59, 0x18, 0x7c, 0xce, 0x94,
+	0x7e, 0xe4, 0x13, 0xc6, 0xb0, 0x2f, 0x5e, 0x41, 0xd3, 0x7c, 0x11, 0x8d, 0x09, 0x86, 0x3a, 0x53,
+	0xf2, 0x4c, 0xe5, 0x6e, 0x8e, 0xce, 0x43, 0x4a, 0x71, 0x80, 0xba, 0xa0, 0x53, 0x46, 0x82, 0x89,
+	0xaf, 0x12, 0xa9, 0xe9, 0x8d, 0xed, 0x28, 0x9b, 0x2c, 0x99, 0xc2, 0xc4, 0x1b, 0x7b, 0x5e, 0xe4,
+	0xe3, 0x8b, 0x83, 0xa4, 0x21, 0x32, 0xe0, 0x9d, 0xcf, 0xb0, 0x27, 0x08, 0xcb, 0x60, 0xf2, 0x70,
+	0xcd, 0xd5, 0xa4, 0xae, 0x29, 0x8e, 0x92, 0x14, 0x02, 0x50, 0xc6, 0x77, 0x48, 0xc4, 0x66, 0x4c,
+	0xfa, 0x0c, 0xa0, 0x36, 0x98, 0xcb, 0x53, 0x73, 0xa6, 0xad, 0x9b, 0x06, 0xd4, 0x07, 0x7c, 0x84,
+	0x5c, 0xf8, 0x50, 0x3a, 0x9d, 0xb6, 0x53, 0xb8, 0x2d, 0x47, 0xb9, 0x03, 0xf3, 0xcf, 0x2a, 0x35,
+	0xef, 0x8d, 0x86, 0xd0, 0x2a, 0x9e, 0xc8, 0x8f, 0xaa, 0xa2, 0x4c, 0x34, 0x7f, 0xaf, 0x10, 0x65,
+	0xc3, 0x63, 0xf8, 0x58, 0xf6, 0xf9, 0xcf, 0xaa, 0x2a, 0x29, 0x9b, 0x7f, 0x57, 0xca, 0x2a, 0x67,
+	0x6e, 0xd7, 0x4a, 0xce, 0x4c, 0xac, 0xe6, 0x54, 0xec, 0x16, 0x2f, 0xb3, 0xe4, 0xb5, 0xa5, 0x65,
+	0x16, 0xd5, 0xe5, 0x65, 0x56, 0x99, 0x07, 0x9d, 0x82, 0xae, 0x3a, 0xe7, 0x57, 0x15, 0x4b, 0xe1,
+	0x81, 0xf9, 0xef, 0x89, 0x07, 0x79, 0xf3, 0xdd, 0xff, 0x77, 0x73, 0x4b, 0x9b, 0xcd, 0x2d, 0xed,
+	0x61, 0x6e, 0x69, 0xb7, 0x0b, 0xab, 0x36, 0x5b, 0x58, 0xb5, 0xfb, 0x85, 0x55, 0x3b, 0xf9, 0x92,
+	0xfc, 0xb8, 0xd3, 0x5e, 0xfe, 0xf5, 0x5e, 0x53, 0xcc, 0xcf, 0xde, 0x26, 0xdf, 0xef, 0xf6, 0x63,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0x19, 0x23, 0x5c, 0xe8, 0x91, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -560,6 +660,7 @@ type MsgClient interface {
 	ItemIncorrect(ctx context.Context, in *MsgItemIncorrect, opts ...grpc.CallOption) (*MsgItemIncorrectResponse, error)
 	ItemShipped(ctx context.Context, in *MsgItemShipped, opts ...grpc.CallOption) (*MsgItemShippedResponse, error)
 	CancelEscrow(ctx context.Context, in *MsgCancelEscrow, opts ...grpc.CallOption) (*MsgCancelEscrowResponse, error)
+	ItemNotReceived(ctx context.Context, in *MsgItemNotReceived, opts ...grpc.CallOption) (*MsgItemNotReceivedResponse, error)
 }
 
 type msgClient struct {
@@ -615,6 +716,15 @@ func (c *msgClient) CancelEscrow(ctx context.Context, in *MsgCancelEscrow, opts 
 	return out, nil
 }
 
+func (c *msgClient) ItemNotReceived(ctx context.Context, in *MsgItemNotReceived, opts ...grpc.CallOption) (*MsgItemNotReceivedResponse, error) {
+	out := new(MsgItemNotReceivedResponse)
+	err := c.cc.Invoke(ctx, "/crow.escrow.Msg/ItemNotReceived", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	ItemReceived(context.Context, *MsgItemReceived) (*MsgItemReceivedResponse, error)
@@ -622,6 +732,7 @@ type MsgServer interface {
 	ItemIncorrect(context.Context, *MsgItemIncorrect) (*MsgItemIncorrectResponse, error)
 	ItemShipped(context.Context, *MsgItemShipped) (*MsgItemShippedResponse, error)
 	CancelEscrow(context.Context, *MsgCancelEscrow) (*MsgCancelEscrowResponse, error)
+	ItemNotReceived(context.Context, *MsgItemNotReceived) (*MsgItemNotReceivedResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -642,6 +753,9 @@ func (*UnimplementedMsgServer) ItemShipped(ctx context.Context, req *MsgItemShip
 }
 func (*UnimplementedMsgServer) CancelEscrow(ctx context.Context, req *MsgCancelEscrow) (*MsgCancelEscrowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelEscrow not implemented")
+}
+func (*UnimplementedMsgServer) ItemNotReceived(ctx context.Context, req *MsgItemNotReceived) (*MsgItemNotReceivedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ItemNotReceived not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -738,6 +852,24 @@ func _Msg_CancelEscrow_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_ItemNotReceived_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgItemNotReceived)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ItemNotReceived(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/crow.escrow.Msg/ItemNotReceived",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ItemNotReceived(ctx, req.(*MsgItemNotReceived))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "crow.escrow.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -761,6 +893,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelEscrow",
 			Handler:    _Msg_CancelEscrow_Handler,
+		},
+		{
+			MethodName: "ItemNotReceived",
+			Handler:    _Msg_ItemNotReceived_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1089,6 +1225,71 @@ func (m *MsgCancelEscrowResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgItemNotReceived) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgItemNotReceived) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgItemNotReceived) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Description) > 0 {
+		i -= len(m.Description)
+		copy(dAtA[i:], m.Description)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Description)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.EscrowId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.EscrowId))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.UserAddress) > 0 {
+		i -= len(m.UserAddress)
+		copy(dAtA[i:], m.UserAddress)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.UserAddress)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgItemNotReceivedResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgItemNotReceivedResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgItemNotReceivedResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -1235,6 +1436,35 @@ func (m *MsgCancelEscrow) Size() (n int) {
 }
 
 func (m *MsgCancelEscrowResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgItemNotReceived) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.UserAddress)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.EscrowId != 0 {
+		n += 1 + sovTx(uint64(m.EscrowId))
+	}
+	l = len(m.Description)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgItemNotReceivedResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2135,6 +2365,189 @@ func (m *MsgCancelEscrowResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgCancelEscrowResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgItemNotReceived) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgItemNotReceived: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgItemNotReceived: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UserAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.UserAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EscrowId", wireType)
+			}
+			m.EscrowId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EscrowId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgItemNotReceivedResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgItemNotReceivedResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgItemNotReceivedResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

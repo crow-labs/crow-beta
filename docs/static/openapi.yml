@@ -47256,6 +47256,8 @@ definitions:
     type: object
   crow.escrow.MsgItemIncorrectResponse:
     type: object
+  crow.escrow.MsgItemNotReceivedResponse:
+    type: object
   crow.escrow.MsgItemReceivedResponse:
     type: object
   crow.escrow.MsgItemShippedResponse:

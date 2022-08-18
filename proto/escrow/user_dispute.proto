@@ -1,0 +1,11 @@
+syntax = "proto3";
+package crow.escrow;
+
+option go_package = "crow/x/escrow/types";
+
+message UserDispute {
+  
+  uint64 escrowId = 1; 
+  uint64 userId = 2; 
+  string description = 3; 
+}

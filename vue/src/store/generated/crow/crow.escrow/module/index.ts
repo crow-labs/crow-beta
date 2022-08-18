@@ -4,19 +4,21 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgItemReceived } from "./types/escrow/tx";
-import { MsgItemDamaged } from "./types/escrow/tx";
-import { MsgItemIncorrect } from "./types/escrow/tx";
 import { MsgItemShipped } from "./types/escrow/tx";
 import { MsgCancelEscrow } from "./types/escrow/tx";
+import { MsgItemNotReceived } from "./types/escrow/tx";
+import { MsgItemIncorrect } from "./types/escrow/tx";
+import { MsgItemReceived } from "./types/escrow/tx";
+import { MsgItemDamaged } from "./types/escrow/tx";
 
 
 const types = [
-  ["/crow.escrow.MsgItemReceived", MsgItemReceived],
-  ["/crow.escrow.MsgItemDamaged", MsgItemDamaged],
-  ["/crow.escrow.MsgItemIncorrect", MsgItemIncorrect],
   ["/crow.escrow.MsgItemShipped", MsgItemShipped],
   ["/crow.escrow.MsgCancelEscrow", MsgCancelEscrow],
+  ["/crow.escrow.MsgItemNotReceived", MsgItemNotReceived],
+  ["/crow.escrow.MsgItemIncorrect", MsgItemIncorrect],
+  ["/crow.escrow.MsgItemReceived", MsgItemReceived],
+  ["/crow.escrow.MsgItemDamaged", MsgItemDamaged],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -49,11 +51,12 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgItemReceived: (data: MsgItemReceived): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemReceived", value: MsgItemReceived.fromPartial( data ) }),
-    msgItemDamaged: (data: MsgItemDamaged): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemDamaged", value: MsgItemDamaged.fromPartial( data ) }),
-    msgItemIncorrect: (data: MsgItemIncorrect): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemIncorrect", value: MsgItemIncorrect.fromPartial( data ) }),
     msgItemShipped: (data: MsgItemShipped): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemShipped", value: MsgItemShipped.fromPartial( data ) }),
     msgCancelEscrow: (data: MsgCancelEscrow): EncodeObject => ({ typeUrl: "/crow.escrow.MsgCancelEscrow", value: MsgCancelEscrow.fromPartial( data ) }),
+    msgItemNotReceived: (data: MsgItemNotReceived): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemNotReceived", value: MsgItemNotReceived.fromPartial( data ) }),
+    msgItemIncorrect: (data: MsgItemIncorrect): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemIncorrect", value: MsgItemIncorrect.fromPartial( data ) }),
+    msgItemReceived: (data: MsgItemReceived): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemReceived", value: MsgItemReceived.fromPartial( data ) }),
+    msgItemDamaged: (data: MsgItemDamaged): EncodeObject => ({ typeUrl: "/crow.escrow.MsgItemDamaged", value: MsgItemDamaged.fromPartial( data ) }),
     
   };
 };
