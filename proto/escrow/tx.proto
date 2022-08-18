@@ -9,6 +9,7 @@ option go_package = "crow/x/escrow/types";
 service Msg {
       rpc ItemReceived(MsgItemReceived) returns (MsgItemReceivedResponse);
   rpc ItemDamaged(MsgItemDamaged) returns (MsgItemDamagedResponse);
+  rpc ItemIncorrect(MsgItemIncorrect) returns (MsgItemIncorrectResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -27,6 +28,15 @@ message MsgItemDamaged {
 }
 
 message MsgItemDamagedResponse {
+}
+
+message MsgItemIncorrect {
+  string userAddress = 1;
+  string escrowId = 2;
+  string description = 3;
+}
+
+message MsgItemIncorrectResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -19,6 +19,14 @@ export interface MsgItemDamaged {
 
 export interface MsgItemDamagedResponse {}
 
+export interface MsgItemIncorrect {
+  userAddress: string;
+  escrowId: string;
+  description: string;
+}
+
+export interface MsgItemIncorrectResponse {}
+
 const baseMsgItemReceived: object = { userAddress: "", escrowId: 0 };
 
 export const MsgItemReceived = {
@@ -271,11 +279,159 @@ export const MsgItemDamagedResponse = {
   },
 };
 
+const baseMsgItemIncorrect: object = {
+  userAddress: "",
+  escrowId: "",
+  description: "",
+};
+
+export const MsgItemIncorrect = {
+  encode(message: MsgItemIncorrect, writer: Writer = Writer.create()): Writer {
+    if (message.userAddress !== "") {
+      writer.uint32(10).string(message.userAddress);
+    }
+    if (message.escrowId !== "") {
+      writer.uint32(18).string(message.escrowId);
+    }
+    if (message.description !== "") {
+      writer.uint32(26).string(message.description);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgItemIncorrect {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgItemIncorrect } as MsgItemIncorrect;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userAddress = reader.string();
+          break;
+        case 2:
+          message.escrowId = reader.string();
+          break;
+        case 3:
+          message.description = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgItemIncorrect {
+    const message = { ...baseMsgItemIncorrect } as MsgItemIncorrect;
+    if (object.userAddress !== undefined && object.userAddress !== null) {
+      message.userAddress = String(object.userAddress);
+    } else {
+      message.userAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = String(object.escrowId);
+    } else {
+      message.escrowId = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgItemIncorrect): unknown {
+    const obj: any = {};
+    message.userAddress !== undefined &&
+      (obj.userAddress = message.userAddress);
+    message.escrowId !== undefined && (obj.escrowId = message.escrowId);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgItemIncorrect>): MsgItemIncorrect {
+    const message = { ...baseMsgItemIncorrect } as MsgItemIncorrect;
+    if (object.userAddress !== undefined && object.userAddress !== null) {
+      message.userAddress = object.userAddress;
+    } else {
+      message.userAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = object.escrowId;
+    } else {
+      message.escrowId = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgItemIncorrectResponse: object = {};
+
+export const MsgItemIncorrectResponse = {
+  encode(
+    _: MsgItemIncorrectResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgItemIncorrectResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgItemIncorrectResponse,
+    } as MsgItemIncorrectResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgItemIncorrectResponse {
+    const message = {
+      ...baseMsgItemIncorrectResponse,
+    } as MsgItemIncorrectResponse;
+    return message;
+  },
+
+  toJSON(_: MsgItemIncorrectResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgItemIncorrectResponse>
+  ): MsgItemIncorrectResponse {
+    const message = {
+      ...baseMsgItemIncorrectResponse,
+    } as MsgItemIncorrectResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   ItemReceived(request: MsgItemReceived): Promise<MsgItemReceivedResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   ItemDamaged(request: MsgItemDamaged): Promise<MsgItemDamagedResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  ItemIncorrect(request: MsgItemIncorrect): Promise<MsgItemIncorrectResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -296,6 +452,14 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("crow.escrow.Msg", "ItemDamaged", data);
     return promise.then((data) =>
       MsgItemDamagedResponse.decode(new Reader(data))
+    );
+  }
+
+  ItemIncorrect(request: MsgItemIncorrect): Promise<MsgItemIncorrectResponse> {
+    const data = MsgItemIncorrect.encode(request).finish();
+    const promise = this.rpc.request("crow.escrow.Msg", "ItemIncorrect", data);
+    return promise.then((data) =>
+      MsgItemIncorrectResponse.decode(new Reader(data))
     );
   }
 }

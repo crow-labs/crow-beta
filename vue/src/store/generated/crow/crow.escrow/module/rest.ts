@@ -11,6 +11,8 @@
 
 export type EscrowMsgItemDamagedResponse = object;
 
+export type EscrowMsgItemIncorrectResponse = object;
+
 export type EscrowMsgItemReceivedResponse = object;
 
 /**

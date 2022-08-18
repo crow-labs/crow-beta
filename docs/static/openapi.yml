@@ -47252,6 +47252,8 @@ definitions:
       response type.
   crow.escrow.MsgItemDamagedResponse:
     type: object
+  crow.escrow.MsgItemIncorrectResponse:
+    type: object
   crow.escrow.MsgItemReceivedResponse:
     type: object
   crow.escrow.Params:
