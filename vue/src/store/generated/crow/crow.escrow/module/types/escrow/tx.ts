@@ -27,6 +27,22 @@ export interface MsgItemIncorrect {
 
 export interface MsgItemIncorrectResponse {}
 
+export interface MsgItemShipped {
+  producerAddress: string;
+  escrowId: number;
+  description: string;
+}
+
+export interface MsgItemShippedResponse {}
+
+export interface MsgCancelEscrow {
+  creator: string;
+  escrowId: string;
+  description: string;
+}
+
+export interface MsgCancelEscrowResponse {}
+
 const baseMsgItemReceived: object = { userAddress: "", escrowId: 0 };
 
 export const MsgItemReceived = {
@@ -426,12 +442,293 @@ export const MsgItemIncorrectResponse = {
   },
 };
 
+const baseMsgItemShipped: object = {
+  producerAddress: "",
+  escrowId: 0,
+  description: "",
+};
+
+export const MsgItemShipped = {
+  encode(message: MsgItemShipped, writer: Writer = Writer.create()): Writer {
+    if (message.producerAddress !== "") {
+      writer.uint32(10).string(message.producerAddress);
+    }
+    if (message.escrowId !== 0) {
+      writer.uint32(16).uint64(message.escrowId);
+    }
+    if (message.description !== "") {
+      writer.uint32(26).string(message.description);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgItemShipped {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgItemShipped } as MsgItemShipped;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.producerAddress = reader.string();
+          break;
+        case 2:
+          message.escrowId = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.description = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgItemShipped {
+    const message = { ...baseMsgItemShipped } as MsgItemShipped;
+    if (
+      object.producerAddress !== undefined &&
+      object.producerAddress !== null
+    ) {
+      message.producerAddress = String(object.producerAddress);
+    } else {
+      message.producerAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = Number(object.escrowId);
+    } else {
+      message.escrowId = 0;
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgItemShipped): unknown {
+    const obj: any = {};
+    message.producerAddress !== undefined &&
+      (obj.producerAddress = message.producerAddress);
+    message.escrowId !== undefined && (obj.escrowId = message.escrowId);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgItemShipped>): MsgItemShipped {
+    const message = { ...baseMsgItemShipped } as MsgItemShipped;
+    if (
+      object.producerAddress !== undefined &&
+      object.producerAddress !== null
+    ) {
+      message.producerAddress = object.producerAddress;
+    } else {
+      message.producerAddress = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = object.escrowId;
+    } else {
+      message.escrowId = 0;
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgItemShippedResponse: object = {};
+
+export const MsgItemShippedResponse = {
+  encode(_: MsgItemShippedResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgItemShippedResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgItemShippedResponse } as MsgItemShippedResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgItemShippedResponse {
+    const message = { ...baseMsgItemShippedResponse } as MsgItemShippedResponse;
+    return message;
+  },
+
+  toJSON(_: MsgItemShippedResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgItemShippedResponse>): MsgItemShippedResponse {
+    const message = { ...baseMsgItemShippedResponse } as MsgItemShippedResponse;
+    return message;
+  },
+};
+
+const baseMsgCancelEscrow: object = {
+  creator: "",
+  escrowId: "",
+  description: "",
+};
+
+export const MsgCancelEscrow = {
+  encode(message: MsgCancelEscrow, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.escrowId !== "") {
+      writer.uint32(18).string(message.escrowId);
+    }
+    if (message.description !== "") {
+      writer.uint32(26).string(message.description);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCancelEscrow {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCancelEscrow } as MsgCancelEscrow;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.escrowId = reader.string();
+          break;
+        case 3:
+          message.description = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCancelEscrow {
+    const message = { ...baseMsgCancelEscrow } as MsgCancelEscrow;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = String(object.escrowId);
+    } else {
+      message.escrowId = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCancelEscrow): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.escrowId !== undefined && (obj.escrowId = message.escrowId);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCancelEscrow>): MsgCancelEscrow {
+    const message = { ...baseMsgCancelEscrow } as MsgCancelEscrow;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.escrowId !== undefined && object.escrowId !== null) {
+      message.escrowId = object.escrowId;
+    } else {
+      message.escrowId = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCancelEscrowResponse: object = {};
+
+export const MsgCancelEscrowResponse = {
+  encode(_: MsgCancelEscrowResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCancelEscrowResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCancelEscrowResponse,
+    } as MsgCancelEscrowResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCancelEscrowResponse {
+    const message = {
+      ...baseMsgCancelEscrowResponse,
+    } as MsgCancelEscrowResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCancelEscrowResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgCancelEscrowResponse>
+  ): MsgCancelEscrowResponse {
+    const message = {
+      ...baseMsgCancelEscrowResponse,
+    } as MsgCancelEscrowResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   ItemReceived(request: MsgItemReceived): Promise<MsgItemReceivedResponse>;
   ItemDamaged(request: MsgItemDamaged): Promise<MsgItemDamagedResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   ItemIncorrect(request: MsgItemIncorrect): Promise<MsgItemIncorrectResponse>;
+  ItemShipped(request: MsgItemShipped): Promise<MsgItemShippedResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  CancelEscrow(request: MsgCancelEscrow): Promise<MsgCancelEscrowResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -460,6 +757,22 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("crow.escrow.Msg", "ItemIncorrect", data);
     return promise.then((data) =>
       MsgItemIncorrectResponse.decode(new Reader(data))
+    );
+  }
+
+  ItemShipped(request: MsgItemShipped): Promise<MsgItemShippedResponse> {
+    const data = MsgItemShipped.encode(request).finish();
+    const promise = this.rpc.request("crow.escrow.Msg", "ItemShipped", data);
+    return promise.then((data) =>
+      MsgItemShippedResponse.decode(new Reader(data))
+    );
+  }
+
+  CancelEscrow(request: MsgCancelEscrow): Promise<MsgCancelEscrowResponse> {
+    const data = MsgCancelEscrow.encode(request).finish();
+    const promise = this.rpc.request("crow.escrow.Msg", "CancelEscrow", data);
+    return promise.then((data) =>
+      MsgCancelEscrowResponse.decode(new Reader(data))
     );
   }
 }

@@ -9,11 +9,15 @@
  * ---------------------------------------------------------------
  */
 
+export type EscrowMsgCancelEscrowResponse = object;
+
 export type EscrowMsgItemDamagedResponse = object;
 
 export type EscrowMsgItemIncorrectResponse = object;
 
 export type EscrowMsgItemReceivedResponse = object;
+
+export type EscrowMsgItemShippedResponse = object;
 
 /**
  * Params defines the parameters for the module.

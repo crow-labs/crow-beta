@@ -47250,11 +47250,15 @@ definitions:
     description: >-
       MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount
       response type.
+  crow.escrow.MsgCancelEscrowResponse:
+    type: object
   crow.escrow.MsgItemDamagedResponse:
     type: object
   crow.escrow.MsgItemIncorrectResponse:
     type: object
   crow.escrow.MsgItemReceivedResponse:
+    type: object
+  crow.escrow.MsgItemShippedResponse:
     type: object
   crow.escrow.Params:
     type: object

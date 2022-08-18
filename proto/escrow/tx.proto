@@ -10,6 +10,8 @@ service Msg {
       rpc ItemReceived(MsgItemReceived) returns (MsgItemReceivedResponse);
   rpc ItemDamaged(MsgItemDamaged) returns (MsgItemDamagedResponse);
   rpc ItemIncorrect(MsgItemIncorrect) returns (MsgItemIncorrectResponse);
+  rpc ItemShipped(MsgItemShipped) returns (MsgItemShippedResponse);
+  rpc CancelEscrow(MsgCancelEscrow) returns (MsgCancelEscrowResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -37,6 +39,24 @@ message MsgItemIncorrect {
 }
 
 message MsgItemIncorrectResponse {
+}
+
+message MsgItemShipped {
+  string producerAddress = 1;
+  uint64 escrowId = 2;
+  string description = 3;
+}
+
+message MsgItemShippedResponse {
+}
+
+message MsgCancelEscrow {
+  string creator = 1;
+  string escrowId = 2;
+  string description = 3;
+}
+
+message MsgCancelEscrowResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

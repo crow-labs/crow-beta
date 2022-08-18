@@ -36,6 +36,14 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgItemIncorrect int = 100
 
+	opWeightMsgItemShipped = "op_weight_msg_item_shipped"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgItemShipped int = 100
+
+	opWeightMsgCancelEscrow = "op_weight_msg_cancel_escrow"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCancelEscrow int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -102,6 +110,28 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgItemIncorrect,
 		escrowsimulation.SimulateMsgItemIncorrect(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgItemShipped int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgItemShipped, &weightMsgItemShipped, nil,
+		func(_ *rand.Rand) {
+			weightMsgItemShipped = defaultWeightMsgItemShipped
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgItemShipped,
+		escrowsimulation.SimulateMsgItemShipped(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCancelEscrow int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCancelEscrow, &weightMsgCancelEscrow, nil,
+		func(_ *rand.Rand) {
+			weightMsgCancelEscrow = defaultWeightMsgCancelEscrow
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCancelEscrow,
+		escrowsimulation.SimulateMsgCancelEscrow(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
