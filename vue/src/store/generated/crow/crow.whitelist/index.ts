@@ -3,9 +3,10 @@ import { txClient, queryClient, MissingWalletError , registry} from './module'
 import { Params } from "./module/types/whitelist/params"
 import { Producer } from "./module/types/whitelist/producer"
 import { User } from "./module/types/whitelist/user"
+import { Whitelist } from "./module/types/whitelist/whitelist"
 
 
-export { Params, Producer, User };
+export { Params, Producer, User, Whitelist };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -49,6 +50,7 @@ const getDefaultState = () => {
 						Params: getStructure(Params.fromPartial({})),
 						Producer: getStructure(Producer.fromPartial({})),
 						User: getStructure(User.fromPartial({})),
+						Whitelist: getStructure(Whitelist.fromPartial({})),
 						
 		},
 		_Registry: registry,
