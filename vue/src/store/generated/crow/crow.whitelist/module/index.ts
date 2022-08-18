@@ -5,10 +5,12 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgCreateUser } from "./types/whitelist/tx";
+import { MsgCreateProducer } from "./types/whitelist/tx";
 
 
 const types = [
   ["/crow.whitelist.MsgCreateUser", MsgCreateUser],
+  ["/crow.whitelist.MsgCreateProducer", MsgCreateProducer],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -42,6 +44,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgCreateUser: (data: MsgCreateUser): EncodeObject => ({ typeUrl: "/crow.whitelist.MsgCreateUser", value: MsgCreateUser.fromPartial( data ) }),
+    msgCreateProducer: (data: MsgCreateProducer): EncodeObject => ({ typeUrl: "/crow.whitelist.MsgCreateProducer", value: MsgCreateProducer.fromPartial( data ) }),
     
   };
 };

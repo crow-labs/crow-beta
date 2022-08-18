@@ -20,6 +20,11 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export interface WhitelistMsgCreateProducerResponse {
+  /** @format uint64 */
+  producerId?: string;
+}
+
 export interface WhitelistMsgCreateUserResponse {
   userId?: string;
 }

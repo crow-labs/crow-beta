@@ -8,6 +8,7 @@ option go_package = "crow/x/whitelist/types";
 // Msg defines the Msg service.
 service Msg {
       rpc CreateUser(MsgCreateUser) returns (MsgCreateUserResponse);
+  rpc CreateProducer(MsgCreateProducer) returns (MsgCreateProducerResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -18,6 +19,15 @@ message MsgCreateUser {
 
 message MsgCreateUserResponse {
   string userId = 1;
+}
+
+message MsgCreateProducer {
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgCreateProducerResponse {
+  uint64 producerId = 1;
 }
 
 // this line is used by starport scaffolding # proto/tx/message
