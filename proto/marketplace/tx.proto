@@ -7,7 +7,32 @@ option go_package = "crow/x/marketplace/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateListing(MsgCreateListing) returns (MsgCreateListingResponse);
+  rpc CreateOrder(MsgCreateOrder) returns (MsgCreateOrderResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateListing {
+  string creator = 1;
+  string title = 2;
+  string description = 3;
+  string minPrice = 4;
+  uint64 producerId = 5;
+}
+
+message MsgCreateListingResponse {
+  uint64 listingId = 1;
+}
+
+message MsgCreateOrder {
+  string creator = 1;
+  uint64 listingId = 2;
+  uint64 userId = 3;
+  string maxPrice = 4;
+}
+
+message MsgCreateOrderResponse {
+  uint64 orderId = 1;
 }
 
 // this line is used by starport scaffolding # proto/tx/message

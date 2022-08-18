@@ -47260,6 +47260,18 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  crow.marketplace.MsgCreateListingResponse:
+    type: object
+    properties:
+      listingId:
+        type: string
+        format: uint64
+  crow.marketplace.MsgCreateOrderResponse:
+    type: object
+    properties:
+      orderId:
+        type: string
+        format: uint64
   crow.marketplace.Params:
     type: object
     description: Params defines the parameters for the module.

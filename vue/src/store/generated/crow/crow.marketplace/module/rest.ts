@@ -9,6 +9,16 @@
  * ---------------------------------------------------------------
  */
 
+export interface MarketplaceMsgCreateListingResponse {
+  /** @format uint64 */
+  listingId?: string;
+}
+
+export interface MarketplaceMsgCreateOrderResponse {
+  /** @format uint64 */
+  orderId?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
