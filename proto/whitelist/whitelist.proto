@@ -6,7 +6,6 @@ import "gogoproto/gogo.proto";
 option go_package = "crow/x/whitelist/types";
 
 message Producer {
-  
   uint64 producerId = 1 [(gogoproto.customname) = "Id"];  
   string address = 2; 
   string status = 3; 
