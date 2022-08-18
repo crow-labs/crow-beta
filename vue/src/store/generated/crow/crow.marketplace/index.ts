@@ -1,13 +1,13 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
+import { Order } from "./module/types/marketplace/listing"
 import { Listing } from "./module/types/marketplace/listing"
-import { Order } from "./module/types/marketplace/order"
 import { MarketplacePacketData } from "./module/types/marketplace/packet"
 import { NoData } from "./module/types/marketplace/packet"
 import { Params } from "./module/types/marketplace/params"
 
 
-export { Listing, Order, MarketplacePacketData, NoData, Params };
+export { Order, Listing, MarketplacePacketData, NoData, Params };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -48,8 +48,8 @@ const getDefaultState = () => {
 				Params: {},
 				
 				_Structure: {
-						Listing: getStructure(Listing.fromPartial({})),
 						Order: getStructure(Order.fromPartial({})),
+						Listing: getStructure(Listing.fromPartial({})),
 						MarketplacePacketData: getStructure(MarketplacePacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),

@@ -1,14 +1,25 @@
 syntax = "proto3";
 package crow.marketplace;
 
+import "gogoproto/gogo.proto";
+
 option go_package = "crow/x/marketplace/types";
 
+message Order { 
+  uint64 orderId = 1 [(gogoproto.customname) = "Id"]; 
+  uint64 listingId = 2; 
+  uint64 userId = 3; 
+  string maxPrice = 4; 
+  string status = 5; 
+}
+
 message Listing {
-  
-  uint64 listingId = 1; 
+  uint64 listingId = 1 [(gogoproto.customname) = "Id"]; 
   uint64 producerId = 2; 
-  string title = 3; 
-  string description = 4; 
-  string minPrice = 5; 
-  string status = 6; 
+  uint64 escrowId = 3;
+  string title = 4; 
+  string description = 5; 
+  string minPrice = 6; 
+  string status = 7; 
+  repeated Order ordersRecieved = 8 [(gogoproto.nullable) = false];
 }
