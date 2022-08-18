@@ -47270,6 +47270,11 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  crow.whitelist.MsgCreateUserResponse:
+    type: object
+    properties:
+      userId:
+        type: string
   crow.whitelist.Params:
     type: object
     description: Params defines the parameters for the module.

@@ -20,6 +20,10 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export interface WhitelistMsgCreateUserResponse {
+  userId?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */

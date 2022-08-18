@@ -6,12 +6,14 @@ export const protobufPackage = "crow.whitelist";
 
 export interface Producer {
   producerId: number;
+  name: string;
   address: string;
   status: string;
 }
 
 export interface User {
   userId: number;
+  name: string;
   address: string;
   status: string;
 }
@@ -23,18 +25,26 @@ export interface Whitelist {
   producers: Producer[];
 }
 
-const baseProducer: object = { producerId: 0, address: "", status: "" };
+const baseProducer: object = {
+  producerId: 0,
+  name: "",
+  address: "",
+  status: "",
+};
 
 export const Producer = {
   encode(message: Producer, writer: Writer = Writer.create()): Writer {
     if (message.producerId !== 0) {
       writer.uint32(8).uint64(message.producerId);
     }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
     if (message.address !== "") {
-      writer.uint32(18).string(message.address);
+      writer.uint32(26).string(message.address);
     }
     if (message.status !== "") {
-      writer.uint32(26).string(message.status);
+      writer.uint32(34).string(message.status);
     }
     return writer;
   },
@@ -50,9 +60,12 @@ export const Producer = {
           message.producerId = longToNumber(reader.uint64() as Long);
           break;
         case 2:
-          message.address = reader.string();
+          message.name = reader.string();
           break;
         case 3:
+          message.address = reader.string();
+          break;
+        case 4:
           message.status = reader.string();
           break;
         default:
@@ -70,6 +83,11 @@ export const Producer = {
     } else {
       message.producerId = 0;
     }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name);
+    } else {
+      message.name = "";
+    }
     if (object.address !== undefined && object.address !== null) {
       message.address = String(object.address);
     } else {
@@ -86,6 +104,7 @@ export const Producer = {
   toJSON(message: Producer): unknown {
     const obj: any = {};
     message.producerId !== undefined && (obj.producerId = message.producerId);
+    message.name !== undefined && (obj.name = message.name);
     message.address !== undefined && (obj.address = message.address);
     message.status !== undefined && (obj.status = message.status);
     return obj;
@@ -97,6 +116,11 @@ export const Producer = {
       message.producerId = object.producerId;
     } else {
       message.producerId = 0;
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = object.name;
+    } else {
+      message.name = "";
     }
     if (object.address !== undefined && object.address !== null) {
       message.address = object.address;
@@ -112,18 +136,21 @@ export const Producer = {
   },
 };
 
-const baseUser: object = { userId: 0, address: "", status: "" };
+const baseUser: object = { userId: 0, name: "", address: "", status: "" };
 
 export const User = {
   encode(message: User, writer: Writer = Writer.create()): Writer {
     if (message.userId !== 0) {
       writer.uint32(8).uint64(message.userId);
     }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
     if (message.address !== "") {
-      writer.uint32(18).string(message.address);
+      writer.uint32(26).string(message.address);
     }
     if (message.status !== "") {
-      writer.uint32(26).string(message.status);
+      writer.uint32(34).string(message.status);
     }
     return writer;
   },
@@ -139,9 +166,12 @@ export const User = {
           message.userId = longToNumber(reader.uint64() as Long);
           break;
         case 2:
-          message.address = reader.string();
+          message.name = reader.string();
           break;
         case 3:
+          message.address = reader.string();
+          break;
+        case 4:
           message.status = reader.string();
           break;
         default:
@@ -159,6 +189,11 @@ export const User = {
     } else {
       message.userId = 0;
     }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name);
+    } else {
+      message.name = "";
+    }
     if (object.address !== undefined && object.address !== null) {
       message.address = String(object.address);
     } else {
@@ -175,6 +210,7 @@ export const User = {
   toJSON(message: User): unknown {
     const obj: any = {};
     message.userId !== undefined && (obj.userId = message.userId);
+    message.name !== undefined && (obj.name = message.name);
     message.address !== undefined && (obj.address = message.address);
     message.status !== undefined && (obj.status = message.status);
     return obj;
@@ -186,6 +222,11 @@ export const User = {
       message.userId = object.userId;
     } else {
       message.userId = 0;
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = object.name;
+    } else {
+      message.name = "";
     }
     if (object.address !== undefined && object.address !== null) {
       message.address = object.address;
