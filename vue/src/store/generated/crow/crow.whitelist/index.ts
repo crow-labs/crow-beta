@@ -1,8 +1,8 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { Params } from "./module/types/whitelist/params"
-import { Producer } from "./module/types/whitelist/producer"
-import { User } from "./module/types/whitelist/user"
+import { Producer } from "./module/types/whitelist/whitelist"
+import { User } from "./module/types/whitelist/whitelist"
 import { Whitelist } from "./module/types/whitelist/whitelist"
 
 

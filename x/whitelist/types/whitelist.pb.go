@@ -5,6 +5,7 @@ package types
 
 import (
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
@@ -22,16 +23,138 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+type Producer struct {
+	Id      uint64 `protobuf:"varint,1,opt,name=producerId,proto3" json:"producerId,omitempty"`
+	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Status  string `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (m *Producer) Reset()         { *m = Producer{} }
+func (m *Producer) String() string { return proto.CompactTextString(m) }
+func (*Producer) ProtoMessage()    {}
+func (*Producer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2235d805cc8f0fe2, []int{0}
+}
+func (m *Producer) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Producer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Producer.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Producer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Producer.Merge(m, src)
+}
+func (m *Producer) XXX_Size() int {
+	return m.Size()
+}
+func (m *Producer) XXX_DiscardUnknown() {
+	xxx_messageInfo_Producer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Producer proto.InternalMessageInfo
+
+func (m *Producer) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *Producer) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *Producer) GetStatus() string {
+	if m != nil {
+		return m.Status
+	}
+	return ""
+}
+
+type User struct {
+	Id      uint64 `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
+	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Status  string `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+}
+
+func (m *User) Reset()         { *m = User{} }
+func (m *User) String() string { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()    {}
+func (*User) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2235d805cc8f0fe2, []int{1}
+}
+func (m *User) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_User.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *User) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_User.Merge(m, src)
+}
+func (m *User) XXX_Size() int {
+	return m.Size()
+}
+func (m *User) XXX_DiscardUnknown() {
+	xxx_messageInfo_User.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_User proto.InternalMessageInfo
+
+func (m *User) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *User) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *User) GetStatus() string {
+	if m != nil {
+		return m.Status
+	}
+	return ""
+}
+
 type Whitelist struct {
-	WhitelistId uint64 `protobuf:"varint,1,opt,name=whitelistId,proto3" json:"whitelistId,omitempty"`
-	Creator     string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
+	Id        uint64   `protobuf:"varint,1,opt,name=whitelistId,proto3" json:"whitelistId,omitempty"`
+	Governor  string   `protobuf:"bytes,2,opt,name=governor,proto3" json:"governor,omitempty"`
+	Users     User     `protobuf:"bytes,3,opt,name=users,proto3" json:"users"`
+	Producers Producer `protobuf:"bytes,4,opt,name=producers,proto3" json:"producers"`
 }
 
 func (m *Whitelist) Reset()         { *m = Whitelist{} }
 func (m *Whitelist) String() string { return proto.CompactTextString(m) }
 func (*Whitelist) ProtoMessage()    {}
 func (*Whitelist) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2235d805cc8f0fe2, []int{0}
+	return fileDescriptor_2235d805cc8f0fe2, []int{2}
 }
 func (m *Whitelist) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -60,37 +183,147 @@ func (m *Whitelist) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Whitelist proto.InternalMessageInfo
 
-func (m *Whitelist) GetWhitelistId() uint64 {
+func (m *Whitelist) GetId() uint64 {
 	if m != nil {
-		return m.WhitelistId
+		return m.Id
 	}
 	return 0
 }
 
-func (m *Whitelist) GetCreator() string {
+func (m *Whitelist) GetGovernor() string {
 	if m != nil {
-		return m.Creator
+		return m.Governor
 	}
 	return ""
 }
 
+func (m *Whitelist) GetUsers() User {
+	if m != nil {
+		return m.Users
+	}
+	return User{}
+}
+
+func (m *Whitelist) GetProducers() Producer {
+	if m != nil {
+		return m.Producers
+	}
+	return Producer{}
+}
+
 func init() {
+	proto.RegisterType((*Producer)(nil), "crow.whitelist.Producer")
+	proto.RegisterType((*User)(nil), "crow.whitelist.User")
 	proto.RegisterType((*Whitelist)(nil), "crow.whitelist.Whitelist")
 }
 
 func init() { proto.RegisterFile("whitelist/whitelist.proto", fileDescriptor_2235d805cc8f0fe2) }
 
 var fileDescriptor_2235d805cc8f0fe2 = []byte{
-	// 143 bytes of a gzipped FileDescriptorProto
+	// 289 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2c, 0xcf, 0xc8, 0x2c,
 	0x49, 0xcd, 0xc9, 0x2c, 0x2e, 0xd1, 0x87, 0xb3, 0xf4, 0x0a, 0x8a, 0xf2, 0x4b, 0xf2, 0x85, 0xf8,
-	0x92, 0x8b, 0xf2, 0xcb, 0xf5, 0xe0, 0xa2, 0x4a, 0xee, 0x5c, 0x9c, 0xe1, 0x30, 0x8e, 0x90, 0x02,
-	0x17, 0x37, 0x5c, 0xc6, 0x33, 0x45, 0x82, 0x51, 0x81, 0x51, 0x83, 0x25, 0x08, 0x59, 0x48, 0x48,
-	0x82, 0x8b, 0x3d, 0xb9, 0x28, 0x35, 0xb1, 0x24, 0xbf, 0x48, 0x82, 0x49, 0x81, 0x51, 0x83, 0x33,
-	0x08, 0xc6, 0x75, 0x32, 0x38, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4,
-	0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6, 0x63, 0x39, 0x86, 0x28, 0x31,
-	0x90, 0x95, 0xfa, 0x15, 0x08, 0xa7, 0xe8, 0x97, 0x54, 0x16, 0xa4, 0x16, 0x27, 0xb1, 0x81, 0x5d,
-	0x64, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xe5, 0x7b, 0x71, 0x86, 0xae, 0x00, 0x00, 0x00,
+	0x92, 0x8b, 0xf2, 0xcb, 0xf5, 0xe0, 0xa2, 0x52, 0x22, 0xe9, 0xf9, 0xe9, 0xf9, 0x60, 0x29, 0x7d,
+	0x10, 0x0b, 0xa2, 0x4a, 0x29, 0x85, 0x8b, 0x23, 0xa0, 0x28, 0x3f, 0xa5, 0x34, 0x39, 0xb5, 0x48,
+	0x48, 0x8d, 0x8b, 0xab, 0x00, 0xca, 0xf6, 0x4c, 0x91, 0x60, 0x54, 0x60, 0xd4, 0x60, 0x71, 0x62,
+	0x7b, 0x74, 0x4f, 0x9e, 0xc9, 0x33, 0x25, 0x08, 0x49, 0x46, 0x48, 0x82, 0x8b, 0x3d, 0x31, 0x25,
+	0xa5, 0x28, 0xb5, 0xb8, 0x58, 0x82, 0x49, 0x81, 0x51, 0x83, 0x33, 0x08, 0xc6, 0x15, 0x12, 0xe3,
+	0x62, 0x2b, 0x2e, 0x49, 0x2c, 0x29, 0x2d, 0x96, 0x60, 0x06, 0x4b, 0x40, 0x79, 0x4a, 0x11, 0x5c,
+	0x2c, 0xa1, 0xc5, 0xa9, 0x45, 0x42, 0x72, 0x5c, 0x6c, 0xa5, 0xc5, 0x58, 0x4c, 0x87, 0x8a, 0x92,
+	0x61, 0xf2, 0x41, 0x46, 0x2e, 0xce, 0x70, 0x98, 0x1f, 0x85, 0x34, 0xb8, 0xb8, 0xe1, 0x1e, 0xc6,
+	0xb0, 0x04, 0x59, 0x4a, 0x48, 0x8a, 0x8b, 0x23, 0x3d, 0xbf, 0x2c, 0xb5, 0x28, 0x2f, 0xbf, 0x08,
+	0x6a, 0x15, 0x9c, 0x2f, 0x64, 0xc0, 0xc5, 0x0a, 0x72, 0x0f, 0xc4, 0x2a, 0x6e, 0x23, 0x11, 0x3d,
+	0xd4, 0x90, 0xd4, 0x03, 0x79, 0xc5, 0x89, 0xe5, 0xc4, 0x3d, 0x79, 0x86, 0x20, 0x88, 0x42, 0x21,
+	0x1b, 0x2e, 0x4e, 0x58, 0xf8, 0x14, 0x4b, 0xb0, 0x80, 0x75, 0x49, 0xa0, 0xeb, 0x82, 0x05, 0x33,
+	0x54, 0x27, 0x42, 0x83, 0x93, 0xc1, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9, 0x31, 0x3e, 0x78,
+	0x24, 0xc7, 0x38, 0xe1, 0xb1, 0x1c, 0xc3, 0x85, 0xc7, 0x72, 0x0c, 0x37, 0x1e, 0xcb, 0x31, 0x44,
+	0x89, 0x81, 0xcc, 0xd0, 0xaf, 0x40, 0xc4, 0xad, 0x7e, 0x49, 0x65, 0x41, 0x6a, 0x71, 0x12, 0x1b,
+	0x38, 0xf2, 0x8c, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xed, 0x7a, 0x9b, 0xbb, 0xff, 0x01, 0x00,
+	0x00,
+}
+
+func (m *Producer) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Producer) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Producer) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Id != 0 {
+		i = encodeVarintWhitelist(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *User) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *User) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *User) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Id != 0 {
+		i = encodeVarintWhitelist(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Whitelist) Marshal() (dAtA []byte, err error) {
@@ -113,15 +346,35 @@ func (m *Whitelist) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Creator)))
+	{
+		size, err := m.Producers.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintWhitelist(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x22
+	{
+		size, err := m.Users.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintWhitelist(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	if len(m.Governor) > 0 {
+		i -= len(m.Governor)
+		copy(dAtA[i:], m.Governor)
+		i = encodeVarintWhitelist(dAtA, i, uint64(len(m.Governor)))
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.WhitelistId != 0 {
-		i = encodeVarintWhitelist(dAtA, i, uint64(m.WhitelistId))
+	if m.Id != 0 {
+		i = encodeVarintWhitelist(dAtA, i, uint64(m.Id))
 		i--
 		dAtA[i] = 0x8
 	}
@@ -139,19 +392,63 @@ func encodeVarintWhitelist(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func (m *Producer) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovWhitelist(uint64(m.Id))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovWhitelist(uint64(l))
+	}
+	l = len(m.Status)
+	if l > 0 {
+		n += 1 + l + sovWhitelist(uint64(l))
+	}
+	return n
+}
+
+func (m *User) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovWhitelist(uint64(m.Id))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovWhitelist(uint64(l))
+	}
+	l = len(m.Status)
+	if l > 0 {
+		n += 1 + l + sovWhitelist(uint64(l))
+	}
+	return n
+}
+
 func (m *Whitelist) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.WhitelistId != 0 {
-		n += 1 + sovWhitelist(uint64(m.WhitelistId))
+	if m.Id != 0 {
+		n += 1 + sovWhitelist(uint64(m.Id))
 	}
-	l = len(m.Creator)
+	l = len(m.Governor)
 	if l > 0 {
 		n += 1 + l + sovWhitelist(uint64(l))
 	}
+	l = m.Users.Size()
+	n += 1 + l + sovWhitelist(uint64(l))
+	l = m.Producers.Size()
+	n += 1 + l + sovWhitelist(uint64(l))
 	return n
 }
 
@@ -160,6 +457,272 @@ func sovWhitelist(x uint64) (n int) {
 }
 func sozWhitelist(x uint64) (n int) {
 	return sovWhitelist(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *Producer) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowWhitelist
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Producer: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Producer: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Status = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipWhitelist(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *User) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowWhitelist
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: User: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: User: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Status = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipWhitelist(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *Whitelist) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -192,9 +755,9 @@ func (m *Whitelist) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WhitelistId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
 			}
-			m.WhitelistId = 0
+			m.Id = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowWhitelist
@@ -204,14 +767,14 @@ func (m *Whitelist) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WhitelistId |= uint64(b&0x7F) << shift
+				m.Id |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Governor", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -239,7 +802,73 @@ func (m *Whitelist) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
+			m.Governor = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Users", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Users.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Producers", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowWhitelist
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthWhitelist
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Producers.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

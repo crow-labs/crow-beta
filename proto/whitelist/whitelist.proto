@@ -1,6 +1,8 @@
 syntax = "proto3";
 package crow.whitelist;
 
+import "gogoproto/gogo.proto";
+
 option go_package = "crow/x/whitelist/types";
 
 message Producer {
