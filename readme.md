@@ -23,46 +23,24 @@ Point of sale transactions for brick and mortar stores.
     - Item did not arrive
     - Item is damaged 
 - Staked addresses can vote for governance and are rewarded for participating in settling disputes
-## Events
-- Whitelist producer
-    - Governance
-- Whitelist user
-    - Governance
-- List item on marketplace
-    - Producer
-- Update item price on marketplace
-    - Producer
-- Remove item from marketplace
-    - Producer
-- Buy item on marketplace
-    - User
-- Escrow user funds 
-    - User
-- Item shipped
-    - Producer
-- Item arrived
-    - Producer
-- Confirm item received
-    - User
-- Dispute item received
-    - User
-- Return escrowed funds to user
-    - Governance
-- Send escrowed funds to producer
-    - Governance/Marketplace
-- Jail user
-    - Governance
-- Jail producer
-    - Governance
-- User confirmation timeout
-    - Marketplace
+
+## Module Txs
+### Marketplace
+![marketplaceCommands](https://user-images.githubusercontent.com/99290400/185529026-2eb98223-37c3-499e-947e-2cf2f3ff1813.png)
+
+### Escrow
+![escrowCommans](https://user-images.githubusercontent.com/99290400/185529025-b6821af1-db66-4fba-9cb6-a323d0fa0915.png)
+
+### Whitelist
+![whitelistCommands](https://user-images.githubusercontent.com/99290400/185529027-84896849-2e89-41f0-9488-c8aae811f42f.png)
+
 ## Get started
 
 ```
-ignite chain serve
+ignite chain serve -r
 ```
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+`serve` command installs dependencies, builds, initializes, and starts the blockchain in development.
 
 ### Web Frontend
 
